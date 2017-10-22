@@ -28,13 +28,28 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startNewRecord()
+        let thumbImageNormal = #imageLiteral(resourceName: "SliderThumb-Normal")
+        slider.setThumbImage(thumbImageNormal, for: .normal)
+        
+        let thumbImageHighlighted = #imageLiteral(resourceName: "SliderThumb-Highlighted")
+        slider.setThumbImage(thumbImageHighlighted, for: .highlighted)
+        
+        //其实是在剪裁图片
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        let trackLeftImage = #imageLiteral(resourceName: "SliderTrackLeft")
+        let trackLeftResizable = trackLeftImage.resizableImage(withCapInsets: insets)
+        slider.setMinimumTrackImage(trackLeftResizable, for: .normal)
+        
+        let trackRightImage = #imageLiteral(resourceName: "SliderTrackRight")
+        let traceRightResizable = trackRightImage.resizableImage(withCapInsets: insets)
+        slider.setMaximumTrackImage(traceRightResizable, for: .normal)
+        
+        startNewGame()
     }
     
     func startNewRecord() {
         round += 1
         targetValue = 1 + Int(arc4random_uniform(100))
-        @IBOutlet weak var resetGame: UIButton!
         currentValue = 50
         slider.setValue(Float(currentValue), animated: true)
     }
@@ -66,5 +81,12 @@ class ViewController: UIViewController {
         print("Slider value is \(sender.value)")
         currentValue = lroundf(sender.value)
     }
+
+    @IBAction func startNewGame() {
+        round = 0
+        score = 0
+        startNewRecord()
+    }
+    
 }
 
